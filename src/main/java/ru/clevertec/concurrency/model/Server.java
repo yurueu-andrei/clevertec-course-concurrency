@@ -39,7 +39,6 @@ public class Server {
         try {
             int value = request.getRequestBody();
             receivedData.add(value);
-            System.out.println("Response "+value);
             return receivedData.size();
         } finally {
             lock.unlock();
