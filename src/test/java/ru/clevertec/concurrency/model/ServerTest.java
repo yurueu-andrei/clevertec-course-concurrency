@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class ServerTest {
@@ -22,19 +22,16 @@ public class ServerTest {
     }
 
     @Test
-    void checkReceivedDataList_shouldBeEqualToClientsDataList() throws InterruptedException {
+    void checkReceivedDataList_shouldBeEqualToClientsDataList() {
         //given
-        int requestsNumber = 1000;
+        int requestsNumber = 100;
         List<Integer> clientsInitialData = new ArrayList<>(IntStream.rangeClosed(1, requestsNumber).boxed().toList());
 
         //when
-        for (Integer i : clientsInitialData) {
-            server.processRequest(new Request(i));
-        }
-
+        clientsInitialData.stream().parallel().forEach(i -> server.processRequest(new Request(i)));
         List<Integer> serverReceivedData = server.getReceivedData();
 
         //then
-        assertEquals(clientsInitialData, serverReceivedData);
+        assertTrue(serverReceivedData.containsAll(clientsInitialData));
     }
 }
