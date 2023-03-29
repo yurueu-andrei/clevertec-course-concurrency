@@ -1,5 +1,6 @@
 package ru.clevertec.concurrency.model;
 
+import lombok.SneakyThrows;
 import ru.clevertec.concurrency.data.Request;
 
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ public class Server {
      * @throws InterruptedException in case of thread interruption
      * @see Request
      */
-    public int processRequest(Request request) throws InterruptedException {
+    @SneakyThrows
+    public int processRequest(Request request) {
         Thread.sleep(new Random().nextInt(100, 1001));
         lock.lock();
         try {
