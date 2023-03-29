@@ -8,6 +8,7 @@ import ru.clevertec.concurrency.model.Server;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,10 +40,7 @@ public class IntegratedTest {
     @Test
     void checkServerReceivedData_shouldContainAllIntegersFrom1ToRequestsNumberWithoutDuplicates() throws ExecutionException, InterruptedException {
         //given
-        List<Integer> expected = new ArrayList<>(requestsNumber);
-        for (int i = 1; i <= requestsNumber; i++) {
-            expected.add(i);
-        }
+        List<Integer> expected = new ArrayList<>(IntStream.rangeClosed(1, requestsNumber).boxed().toList());
 
         //when
         client.sendRequests(server);

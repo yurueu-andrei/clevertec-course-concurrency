@@ -8,6 +8,7 @@ import ru.clevertec.concurrency.data.Request;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,10 +25,7 @@ public class ServerTest {
     void checkReceivedDataList_shouldBeEqualToClientsDataList() throws InterruptedException {
         //given
         int requestsNumber = 1000;
-        List<Integer> clientsInitialData = new ArrayList<>(requestsNumber);
-        for (int i = 1; i <= requestsNumber; i++) {
-            clientsInitialData.add(i);
-        }
+        List<Integer> clientsInitialData = new ArrayList<>(IntStream.rangeClosed(1, requestsNumber).boxed().toList());
 
         //when
         for (Integer i : clientsInitialData) {

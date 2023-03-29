@@ -40,13 +40,10 @@ public class Client {
      * Constructor, which fills dataList field and initializes accumulator,
      * threadNumber and lock fields
      */
-    public Client(int threadsNumber) {
-        this.dataList = new ArrayList<>();
-        for (int i = 1; i <= threadsNumber; i++) {
-            dataList.add(i);
-        }
+    public Client(int requestsNumber) {
+        this.dataList = new ArrayList<>(IntStream.rangeClosed(1, requestsNumber).boxed().toList());
         this.accumulator = new AtomicInteger(0);
-        this.threadsNumber = threadsNumber;
+        this.threadsNumber = requestsNumber;
         this.lock = new ReentrantLock();
     }
 
