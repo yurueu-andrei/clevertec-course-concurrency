@@ -72,13 +72,14 @@ public class Client {
     private List<Callable<Integer>> generateTasks(Server server) {
         Callable<Integer> callable = () -> {
             lock.lock();
+            int value;
             try {
                 int index = new Random().nextInt(dataList.size());
-                int value = dataList.remove(index);
-                return server.processRequest(new Request(value));
+                value = dataList.remove(index);
             } finally {
                 lock.unlock();
             }
+            return server.processRequest(new Request(value));
         };
         return IntStream.range(0, threadsNumber)
                 .mapToObj(i -> callable)
