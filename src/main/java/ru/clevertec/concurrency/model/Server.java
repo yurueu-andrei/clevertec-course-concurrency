@@ -34,11 +34,12 @@ public class Server {
      * @see Request
      */
     public int processRequest(Request request) throws InterruptedException {
+        Thread.sleep(new Random().nextInt(100, 1001));
         lock.lock();
         try {
-            Thread.sleep(new Random().nextInt(100, 1001));
             int value = request.getRequestBody();
             receivedData.add(value);
+            System.out.println("Response "+value);
             return receivedData.size();
         } finally {
             lock.unlock();
